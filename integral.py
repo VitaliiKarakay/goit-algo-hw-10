@@ -2,10 +2,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.integrate import quad
 
+from monteCarlo import monte_carlo_integration
+
 
 # Визначення функції та межі інтегрування
 def f(x):
     return x ** 2
+
 
 a = 0  # Нижня межа
 b = 2  # Верхня межа
@@ -38,16 +41,8 @@ ax.set_title('Графік інтегрування f(x) = x^2 від ' + str(a)
 plt.grid()
 plt.show()
 
-# Метод Монте-Карло для обчислення інтегралу
-N = 100000  # Кількість випадкових точок
-x_random = np.random.uniform(a, b, N)  # Випадкові значення x
-y_random = np.random.uniform(0, max(y), N)  # Випадкові значення y
+area_mc = monte_carlo_integration(f, a, b, max_y=max(y))
 
-# Підрахунок кількості точок під графіком
-points_under_curve = np.sum(y_random < f(x_random))
-area_mc = (b - a) * max(y) * (points_under_curve / N)
-
-# Аналітичне обчислення інтегралу за допомогою SciPy
 integral, error = quad(f, a, b)
 
 print(f"Метод Монте-Карло: {area_mc}")
